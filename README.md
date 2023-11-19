@@ -43,12 +43,11 @@ The trace shows the time spent in the `applyBoxBlur` function in the basic C++ i
 ![Trace](media/trace.png)
 
 ### Full Results
-Swift with Metal crushes the C++ implementation of the same algorithm. OpenCV performs much closer to the Metal implementation, but still lags behind. It probably uses a better convolution algorithm.
+
+Times are measured with timing calls on the CPU main thread, see source code.
 
 | Implementation | Setup | Read |   Blur   | Write | Total |
 |----------------|-------|------|----------|-------|-------|
 | Basic C++      | -     | 3    | **2753** | 2     | 2758  |
 | OpenCV         | -     | 3    | **31**   | 2     | 36    |
 | Metal          | 63    | 20   | **11**   | 4     | 98    |
-
-Times are measured with timing calls on the CPU, see source code.
