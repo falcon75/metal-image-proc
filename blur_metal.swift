@@ -140,7 +140,7 @@ metalImageBlur.blurImage(inputTexture: inputTexture, outputTexture: outputTextur
 
 let t4 = Date()
 // Save output image to file
-let outputImagePath = "output/output_metal.jpg"
+let outputImagePath = "output/metal.jpg"
 
 let outputBitmap = NSBitmapImageRep(
     bitmapDataPlanes: nil,

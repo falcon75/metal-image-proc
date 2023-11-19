@@ -21,7 +21,7 @@ int main() {
     auto blurDuration = std::chrono::duration_cast<std::chrono::milliseconds>(blurTime - startTime).count();
 
     // Save output image
-    cv::imwrite("output/output_opencv.jpg", inputImage);
+    cv::imwrite("output/opencv.jpg", inputImage);
 
     // Record time after image writing
     auto endTime = std::chrono::high_resolution_clock::now();
