@@ -2,6 +2,8 @@
 #include <opencv2/opencv.hpp>
 
 int main() {
+
+    auto startTime = std::chrono::high_resolution_clock::now();
     // Load input image
     cv::Mat inputImage = cv::imread("input.jpg");
 
@@ -11,10 +13,12 @@ int main() {
     }
 
     // Record start time
-    auto startTime = std::chrono::high_resolution_clock::now();
+    auto blurStartTime = std::chrono::high_resolution_clock::now();
+    auto loadDuration = std::chrono::duration_cast<std::chrono::milliseconds>(blurStartTime - startTime).count();
     
     // Apply blur
-    cv::GaussianBlur(inputImage, inputImage, cv::Size(21, 21), 0);
+    cv::Mat kernel = cv::Mat::ones(19, 19, CV_32F) / 361;
+    cv::filter2D(inputImage, inputImage, -1, kernel);
 
     // Record time after blur
     auto blurTime = std::chrono::high_resolution_clock::now();
@@ -28,8 +32,9 @@ int main() {
     auto writeTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - blurTime).count();
 
     // Print timings
-    std::cout << "Blur Time: " << blurDuration << " ms\n";
-    std::cout << "Write Time: " << writeTime << " ms\n";
+    std::cout << "Write Time: " << loadDuration << " ms | ";
+    std::cout << "Blur Time: " << blurDuration << " ms | ";
+    std::cout << "Write Time: " << writeTime << " ms \n";
 
     return 0;
 }

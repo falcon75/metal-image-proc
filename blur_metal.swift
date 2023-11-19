@@ -25,7 +25,7 @@ class MetalImageBlur {
             int height = input.get_height();
 
             // Blur radius
-            int blurRadius = 9 ;
+            int blurRadius = 9;
 
             // Accumulator for blurred color
             float4 blurSum = float4(0.0);
@@ -133,13 +133,14 @@ inputTexture.replace(region: MTLRegion(
     size: MTLSize(width: inputTexture.width, height: inputTexture.height, depth: 1)
 ), mipmapLevel: 0, withBytes: inputBytes, bytesPerRow: inputBytesPerRow)
 
-let t3 = Date()
+
 // Apply blur
+let t3 = Date()
 metalImageBlur.blurImage(inputTexture: inputTexture, outputTexture: outputTexture)
 
 
-let t4 = Date()
 // Save output image to file
+let t4 = Date()
 let outputImagePath = "output/metal.jpg"
 
 let outputBitmap = NSBitmapImageRep(
@@ -167,7 +168,6 @@ outputTexture.getBytes(
 
 let outputImageData = outputBitmap.representation(using: .jpeg, properties: [:])
 try! outputImageData?.write(to: URL(fileURLWithPath: outputImagePath))
+
 let t5 = Date()
-
-print("Metal Init: \(String(format: "%.4f", t2.timeIntervalSince(t1)))s | Image Load: \(String(format: "%.4f", t3.timeIntervalSince(t2)))s | Blur Call: \(String(format: "%.4f", t4.timeIntervalSince(t3)))s | Image Write: \(String(format: "%.4f", t5.timeIntervalSince(t4)))s")
-
+print("Metal Init: \(String(format: "%.0f", t2.timeIntervalSince(t1) * 1000)) ms | Image Load: \(String(format: "%.0f", t3.timeIntervalSince(t2) * 1000)) ms | Blur Call: \(String(format: "%.0f", t4.timeIntervalSince(t3) * 1000)) ms | Image Write: \(String(format: "%.0f", t5.timeIntervalSince(t4) * 1000)) ms")

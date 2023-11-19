@@ -39,9 +39,9 @@ void applyBoxBlur(cv::Mat& inputImage, int blurRadius) {
 }
 
 
-
-
 int main() {
+
+    auto startTime = std::chrono::high_resolution_clock::now();
     // Load input image
     cv::Mat inputImage = cv::imread("input.jpg");
 
@@ -50,15 +50,15 @@ int main() {
         return 1;
     }
 
-    // Record start time
-    auto startTime = std::chrono::high_resolution_clock::now();
+    auto blurStartTime = std::chrono::high_resolution_clock::now();
+    auto loadDuration = std::chrono::duration_cast<std::chrono::milliseconds>(blurStartTime - startTime).count();
     
     // Apply blur
     applyBoxBlur(inputImage, 9);
 
     // Record time after blur
     auto blurTime = std::chrono::high_resolution_clock::now();
-    auto blurDuration = std::chrono::duration_cast<std::chrono::milliseconds>(blurTime - startTime).count();
+    auto blurDuration = std::chrono::duration_cast<std::chrono::milliseconds>(blurTime - blurStartTime).count();
 
     // Save output image
     cv::imwrite("output/basic.jpg", inputImage);
@@ -68,8 +68,9 @@ int main() {
     auto writeTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - blurTime).count();
 
     // Print timings
-    std::cout << "Blur Time: " << blurDuration << " ms\n";
-    std::cout << "Write Time: " << writeTime << " ms\n";
+    std::cout << "Write Time: " << loadDuration << " ms | ";
+    std::cout << "Blur Time: " << blurDuration << " ms | ";
+    std::cout << "Write Time: " << writeTime << " ms \n";
 
     return 0;
 }
